@@ -1,0 +1,16 @@
+d59461459485b01f5c00182e3906b4b9 *DESCRIPTION
+f32cde60fd65e1ae8376db6a54b14dc5 *NAMESPACE
+780f935c73aed7b6bd4c0a99acefe3bd *R/gower-pkg.R
+bfe1d641dd9a1d362afcb688f44df78d *R/gower.R
+00948546dfa81f53c4bebf838eb2d98a *build/vignette.rds
+dedc916a69d5cf53c8285208f4684caa *inst/doc/intro.R
+15a5b8dee5b6e076372318fe03aed74b *inst/doc/intro.Rmd
+1fd91b3d03d1de794aad546a18915e73 *inst/doc/intro.html
+5ed829509922e1d3d3ed3a6608a51ee8 *man/gower-package.Rd
+04d24f2bc6316bbb3fbd377750847e73 *man/gower_dist.Rd
+5859799614752393e7a20f7e4ad07e0d *man/gower_topn.Rd
+4e95da77024f1ca60e63ce4aabf063c1 *src/Makevars
+5cb5cdbf979f2a86ad930eedc505fec6 *src/gower.c
+3009b35ff0db11976f27dba9963141f3 *tests/testthat.R
+e27351d9e1c7fc1412e1a1b5389ff4b7 *tests/testthat/test_gower.R
+15a5b8dee5b6e076372318fe03aed74b *vignettes/intro.Rmd
