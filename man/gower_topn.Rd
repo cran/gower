@@ -20,7 +20,7 @@ See Details below.}
 
 \item{n}{The top-n indices and distances to return.}
 
-\item{eps}{= \code{[numeric] (optional)} Computed numbers (variable ranges) 
+\item{eps}{\code{[numeric] (optional)} Computed numbers (variable ranges) 
 smaller than \code{eps} are treated as zero.}
 
 \item{nthread}{Number of threads to use for parallelization. By default,

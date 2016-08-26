@@ -18,7 +18,7 @@ See Details below.}
 \item{pair_y}{\code{[numeric|character] (optional)} Columns in \code{y} used for comparison. 
 See Details below.}
 
-\item{eps}{= \code{[numeric] (optional)} Computed numbers (variable ranges) 
+\item{eps}{\code{[numeric] (optional)} Computed numbers (variable ranges) 
 smaller than \code{eps} are treated as zero.}
 
 \item{nthread}{Number of threads to use for parallelization. By default,

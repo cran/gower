@@ -24,6 +24,17 @@
 #include <omp.h>
 #endif
 
+/* R-windows-oldrel (3.2.x) uses gcc 4.6.3  which we need to detect */
+#ifdef __GNUC__
+#if __GNUC__ <= 4 && __GNUC_MINOR__ <= 6
+#else
+#define HAS_REDUCTION
+#endif
+#endif
+
+
+
+
 #include <math.h>
 #include <R.h>
 #include <Rdefines.h>
@@ -301,11 +312,12 @@ static void get_dbl_range(double *x, int nx, double *min, double *max){
   double *ix = x;
 
 
-  double imin=x[0], imax=x[0];
+  double imin=*ix, imax=*ix;
+
   for ( int i=0; i<nx; i++, ix++ ){
-    if (isfinite(*ix)) break;
     imin = *ix; 
     imax = *ix;
+    if (isfinite(*ix)) break;
   }
   
   // all non-finite, range not computable.
@@ -313,9 +325,13 @@ static void get_dbl_range(double *x, int nx, double *min, double *max){
     return ;
   }
 
+  #ifdef HAS_REDUCTION
   #pragma omp parallel num_threads(NTHREAD)
+  #endif
   {
-  #pragma omp for reduction(min:imin), reduction(max:imax)
+    #ifdef HAS_REDUCTION
+    #pragma omp for reduction(min:imin), reduction(max:imax)
+    #endif
     for ( int i=0; i<nx; i++){
       if (isfinite(x[i])){
         if (x[i] > imax){
@@ -350,7 +366,9 @@ static void get_int_range(int *x, int nx, double *min, double *max){
   }
 
    
+  #ifdef HAS_REDUCTION
   #pragma omp parallel for reduction(min:imin), reduction(max:imax)
+  #endif
   for ( int i=0; i<nx; i++){
     if ( x[i] != NA_INTEGER ){
       if (x[i] > imax){
@@ -420,8 +438,25 @@ SEXP R_get_xy_range(SEXP x_, SEXP y_, SEXP nthread_){
 }
 
 
-static void do_gower(SEXP x, SEXP y, SEXP ranges_, SEXP pair_
-  , SEXP factor_pair_, SEXP eps_, SEXP nthread_, double *work, SEXP out_){
+/*
+static void print_vec(double *x, int n){
+  for ( int i=0; i<n; i++){
+    Rprintf("(%d) = %4.3f, ",i,x[i]);
+  }
+  Rprintf("\n");
+}*/
+
+static void do_gower(
+  SEXP x               // a data.frame
+  , SEXP y             // another data.frame
+  , SEXP ranges_       // dbl; ranges[i] is range of variable (x[i],y[pair[i]])
+  , SEXP pair_         // int; pair[i] is index in y
+  , SEXP factor_pair_  // int; 0 if not factor
+  , SEXP eps_          // dbl; numerical zero
+  , SEXP nthread_      // int; requested nr of threads
+  , double *work       // dbl; of length max(nrow(x),nrow(y))
+  , SEXP out_)         // dbl; output, length equals work.
+{
 
   int *pair = INTEGER(pair_)
     , *factor_pair = INTEGER(factor_pair_);
@@ -435,9 +470,6 @@ static void do_gower(SEXP x, SEXP y, SEXP ranges_, SEXP pair_
   EPS = REAL(eps_)[0];
 
 
-  // from R [base-1] to C [base-0] index for columns.
-  //for ( int j=0; j<npair; j++) pair[j]--;
-
   int nrow_x = length(VECTOR_ELT(x, 0L))
     , nrow_y = length(VECTOR_ELT(y, 0L));
   int nt = MAX(nrow_x, nrow_y);
@@ -446,7 +478,7 @@ static void do_gower(SEXP x, SEXP y, SEXP ranges_, SEXP pair_
   double *num = REAL(out_)
        , *den = work;
 
-  // initialize
+  // initialize work- and output space
   double *iden = den, *inum = num;
   for ( int j=0; j<nt; j++, iden++, inum++){
     *iden = 0.0;

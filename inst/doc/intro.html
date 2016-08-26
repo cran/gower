@@ -12,7 +12,7 @@
 
 <meta name="author" content="Mark van der Loo" />
 
-<meta name="date" content="2016-08-10" />
+<meta name="date" content="2016-08-26" />
 
 <title>Introduction to the gower package</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to the gower package</h1>
 <h4 class="author"><em>Mark van der Loo</em></h4>
-<h4 class="date"><em>2016-08-10</em></h4>
+<h4 class="date"><em>2016-08-26</em></h4>
 
 
 
@@ -137,7 +137,7 @@ L</code></pre></div>
 </div>
 <div id="parallelization-memory-usage" class="section level2">
 <h2>Parallelization, memory usage</h2>
-<p>The underlying algorithm is implemented in C and parallelized using <a href="http://www.openmp.org">OpenMP</a>. OpenMP is available on most systems that can run R. Please see <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html#OpenMP-support">this section</a> of the writing R extensions manual for up-to-details details on which systems are supported. At the time of writing (summer 2016), OSX is the only system not supporting OpenMP out of the box. You can still make it work by installing the gcc toolchain and compoling the package.</p>
+<p>The underlying algorithm is implemented in C and parallelized using <a href="http://www.openmp.org">OpenMP</a>. OpenMP is available on most systems that can run R. Please see <a href="https://cran.r-project.org/doc/manuals/r-release/R-exts.html#OpenMP-support">this section</a> of the writing R extensions manual for up-to-details details on which systems are supported. At the time of writing (summer 2016), OSX is the only system not supporting OpenMP out of the box. You can still make it work by installing the gcc toolchain and compiling the package (and R).</p>
 <p>If OpenMP is not supported, the package will still work but the core algorithms will not be parallelized.</p>
 <p>This implementation makes no copies of the data in memory. When computing <code>gower_dist</code>, two double precision arrays of size <em>max(nrow(x),nrow(y))</em> are kept in memory to store intermediate results. When computing the top-n matches, for <em>k</em> cores, <em>k+2</em> double precision arrays of length <code>nrow(y)</code> are created to store intermediate results at C level.</p>
 </div>
