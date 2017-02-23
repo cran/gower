@@ -50,6 +50,7 @@ Gower (1971) originally defined a similarity measure (\eqn{s}, say)
 with values ranging from 0 (completely dissimilar) to 1 (completely similar).
 The distance returned here equals \eqn{1-s}.
 }
+
 \references{
 Gower, John C. "A general coefficient of similarity and some of its 
 properties." Biometrics (1971): 857-871.
@@ -57,4 +58,3 @@ properties." Biometrics (1971): 857-871.
 \seealso{
 \code{\link{gower_topn}}
 }
-

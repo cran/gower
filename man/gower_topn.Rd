@@ -47,4 +47,3 @@ gower_topn(x=x,y=lookup,n=4)
 \seealso{
 \code{\link{gower_dist}}
 }
-

@@ -7,4 +7,3 @@
 \description{
 A C-based implementation of Gower's distance.
 }
-
