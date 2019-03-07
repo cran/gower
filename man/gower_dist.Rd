@@ -5,6 +5,7 @@
 \title{Gower's distance}
 \usage{
 gower_dist(x, y, pair_x = NULL, pair_y = NULL, eps = 1e-08,
+  weights = NULL, ignore_case = FALSE,
   nthread = getOption("gd_num_thread"))
 }
 \arguments{
@@ -21,13 +22,21 @@ See Details below.}
 \item{eps}{\code{[numeric] (optional)} Computed numbers (variable ranges) 
 smaller than \code{eps} are treated as zero.}
 
+\item{weights}{\code{[numeric] (optional)} A vector of weights of length \code{ncol(x)}
+that defines the weight applied to each component of the gower distance.}
+
+\item{ignore_case}{\code{[logical]} Toggle ignore case when neither \code{pair_x}
+nor \code{pair_y} are user-defined.}
+
 \item{nthread}{Number of threads to use for parallelization. By default,
 for a dual-core machine, 2 threads are used. For any other machine 
 n-1 cores are used so your machine doesn't freeze during a big computation. 
-The maximum nr of threads are determined from \code{omp::get_max_threads}.}
+The maximum nr of threads are determined using \code{omp_get_max_threads} at C level.}
 }
 \value{
 A \code{numeric} vector of length \code{max(nrow(x),nrow(y))}.
+  When there are no columns to compare, a message is printed and both
+  \code{numeric(0)} is returned invisibly.
 }
 \description{
 Compute Gower's distance, pairwise between records in two data sets \code{x} 

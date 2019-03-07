@@ -40,6 +40,18 @@ test_that("multivariate dataset",{
   # not counting NA's in the denominator
   dM1[array(c(2,3,4,1,2,3),dim=c(3,2))] <- NA
   expect_equal(gower_dist(dM1,dM2), c(0,3/4,3/4,0))
+  #auto-matching columns
+  expect_equivalent(gower_dist(women, women[1]),rep(0,nrow(women)))
+ 
+
+
+})
+
+test_that("ignoring column name cases",{
+	dat1 <- iris[1:6,]
+  dat2 <- iris[1:6,]
+  names(dat2) <- tolower(names(dat2))
+  expect_equal(gower_dist(dat1, dat2, ignore_case=TRUE),rep(0,6))
 })
 
 test_that("recycling",{
@@ -50,7 +62,24 @@ test_that("recycling",{
 })
 
 
-test_that("exceptions",{
+test_that("weights",{
+  expect_error(gower_topn(women, women, weights=-(1:4)))
+  expect_error(gower_dist(women, women, weights=c(NA,1:3)))
+
+  d1 <- women[1,]
+  d2 <- women[2,]
+  w <- c(1,2)
+  r <- sapply(women, function(x) abs(diff(range(x))))
+  
+  d12 <- (w[1]*abs(d1[1,1]-d2[1,1])/r[1] + w[2]*abs(d1[1,2]-d2[1,2])/r[2])/sum(w)
+  wom2 <- women
+  wom2[1:2,] <- wom2[2:1,]
+  expect_equivalent(gower_dist(women,wom2, weights=w)[1], d12)
+  
+})
+
+
+test_that("edge cases and exceptions",{
   expect_warning(gower_dist(
     x = data.frame(x=c(1.2,1.2,1.2))
     , y = data.frame(x=c(1.2,1.2,1.2))
@@ -62,7 +91,23 @@ test_that("exceptions",{
   ))
 
   expect_warning(gower_dist(data.frame(x=rep(1,100)), data.frame(x=1,100)))
+
+
+  expect_error(gower_dist(
+    data.frame(a = letters[1:3], stringsAsFactors = TRUE),
+    data.frame(a = letters[2:4], stringsAsFactors = TRUE)
+  ))
+  expect_error(gower_dist(
+    data.frame(a = letters[1:3], stringsAsFactors = FALSE),
+    data.frame(a = letters[2:4], stringsAsFactors = TRUE)
+  ))
+  expect_equal(gower_dist(data.frame(x=1:3),data.frame(y=1:3)), numeric(0))
+  expect_equal(gower_topn(data.frame(x=1:3),data.frame(y=1:3))$distance, matrix(0)[0,0])
+  expect_equal(gower_topn(data.frame(x=1:3),data.frame(y=1:3))$index, matrix(0)[0,0])
+
 })
+
+
 
 
 context("Top-n")
