@@ -4,9 +4,17 @@
 \alias{gower_topn}
 \title{Find the top-n matches}
 \usage{
-gower_topn(x, y, pair_x = NULL, pair_y = NULL, n = 5, eps = 1e-08,
-  weights = NULL, ignore_case = FALSE,
-  nthread = getOption("gd_num_thread"))
+gower_topn(
+  x,
+  y,
+  pair_x = NULL,
+  pair_y = NULL,
+  n = 5,
+  eps = 1e-08,
+  weights = NULL,
+  ignore_case = FALSE,
+  nthread = getOption("gd_num_thread")
+)
 }
 \arguments{
 \item{x}{\code{[data.frame]}}

@@ -4,9 +4,16 @@
 \alias{gower_dist}
 \title{Gower's distance}
 \usage{
-gower_dist(x, y, pair_x = NULL, pair_y = NULL, eps = 1e-08,
-  weights = NULL, ignore_case = FALSE,
-  nthread = getOption("gd_num_thread"))
+gower_dist(
+  x,
+  y,
+  pair_x = NULL,
+  pair_y = NULL,
+  eps = 1e-08,
+  weights = NULL,
+  ignore_case = FALSE,
+  nthread = getOption("gd_num_thread")
+)
 }
 \arguments{
 \item{x}{\code{[data.frame]}}
