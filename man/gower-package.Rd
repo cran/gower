@@ -2,8 +2,26 @@
 % Please edit documentation in R/gower-pkg.R
 \docType{package}
 \name{gower-package}
+\alias{gower}
 \alias{gower-package}
 \title{Gower's distance/similarity measure.}
 \description{
 A C-based implementation of Gower's distance.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/markvanderloo/gower}
+  \item Report bugs at \url{https://github.com/markvanderloo/gower/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Mark van der Loo \email{mark.vanderloo@gmail.com}
+
+Other contributors:
+\itemize{
+  \item David Turner [contributor]
+}
+
 }
